@@ -1,5 +1,8 @@
 package jp.co.sample.form;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 /**
  * 表示内容を受け取るフォーム.
  * 
@@ -8,11 +11,17 @@ package jp.co.sample.form;
  */
 public class CommentForm {
 
+	
 	/** 記事のID */
 	private String articleId;
+	
 	/** 名前 */
+	@NotBlank(message="※名前の入力は必須です")
 	private String name;
+
 	/** 投稿内容 */
+	@NotBlank(message="※投稿内容を入力してください")
+	@Size(min=3,max=250,message="※3文字以上250文字以内で入力してください")
 	private String content;
 
 	@Override

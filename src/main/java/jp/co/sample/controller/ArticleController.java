@@ -6,8 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.sample.domain.Article;
 import jp.co.sample.domain.Comment;
@@ -84,7 +87,16 @@ public class ArticleController {
 	 * @return
 	 */
 	@RequestMapping("/insertArticle")
-	public String insertArticle(ArticleForm form) {
+	public String insertArticle(
+			//エラーチェック処理
+			@Validated ArticleForm form,
+			BindingResult result,
+			RedirectAttributes redirectAttributes,
+			Model model) {
+		
+		if(result.hasErrors()) {
+			return index(model);
+		}
 
 		String name = form.getName();
 		String content = form.getContent();
@@ -104,7 +116,15 @@ public class ArticleController {
 	 * @return 投稿画面へ
 	 */
 	@RequestMapping("/insertComment")
-	public String insertComment(CommentForm form) {
+	public String insertComment(
+			//入力エラーチェック
+			@Validated CommentForm form,
+			BindingResult result,
+			RedirectAttributes redirectAttributes,
+			Model model) {
+		if(result.hasErrors()) {
+		return index(model);
+	}
 		String name = form.getName();
 		String content = form.getContent();
 		String articleId = form.getArticleId();

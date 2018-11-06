@@ -65,30 +65,35 @@ public class ArticleRepository {
 				//   commentList　→　記事1　に対して　コメント多数.
 				List<Article> articleList = new ArrayList<Article>();
 				List<Comment> commentList = null;
-				int previousId = 0;
+				int previousArtcleId = 0;
 				
 				//新たに記事を投稿したら新しい記事を追加
 				while (rs.next()) {
-				    int id = rs.getInt("a_id");
+				    int nowArticleId = rs.getInt("a_id");
 					
 				    //投稿IDが異なる場合　新しい記事の作成
-				    if (previousId != id) {
+				    if (previousArtcleId != nowArticleId) {
 						Article article = new Article();
-							article.setId(			rs.getInt("a_id"));
-							article.setName(		rs.getString("a_name"));
-							article.setContent(		rs.getString("a_content"));
-							commentList = new ArrayList<>();
-							article.setCommentList(commentList);
-							articleList.add(article);
+						article.setId(			rs.getInt(		"a_id"));
+						article.setName(		rs.getString(	"a_name"));
+						article.setContent(		rs.getString(	"a_content"));
+						commentList = new ArrayList<>();
+						article.setCommentList(commentList);
+						articleList.add(article);
 					}
+					int commentId = rs.getInt("com_id");
+				   
+					if(commentId != 0) {
 					
-						Comment comment = new Comment();
-							comment.setId(			rs.getInt("com_id"));
-							comment.setName(		rs.getString("com_name"));
-							comment.setContent(		rs.getString("com_content"));
-							comment.setArticleId(	rs.getInt("com_article_id"));
-							commentList.add(comment);
-							previousId = id;
+					Comment comment = new Comment();
+					comment.setId(			rs.getInt(		"com_id"));
+					comment.setName(		rs.getString(	"com_name"));
+					comment.setContent(		rs.getString(	"com_content"));
+					comment.setArticleId(	rs.getInt(		"com_article_id"));
+					commentList.add(comment);
+					
+					}
+					previousArtcleId = nowArticleId;
 				}
 				return articleList;
 			}
