@@ -38,13 +38,13 @@ public class CommentRepository {
 	};
 
 	/**
-	 * articleId検索.
+	 * 投稿IDからコメント情報一覧を検索する.
 	 * 
-	 * @param articleId 
-	 * @return 
+	 * @param articleId 投稿ID
+	 * @return コメント情報一覧
 	 */
 	public List<Comment> findByArticleId(Integer articleId) {
-		String sql = "SELECT id, name, content, article_id FROM comments where article_id = :articleId";
+		String sql = "SELECT id, name, content, article_id FROM comments where article_id = :articleId　ORDER BY id DESC";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("articleId", articleId);
 		List<Comment> comment = template.query(sql, param, COMMENT_ROW_MAPPER);
 		return comment;
@@ -53,7 +53,7 @@ public class CommentRepository {
 	/**
 	 * コメントの投稿.
 	 * 
-	 * @param comment　コメント.
+	 * @param comment　コメント情報
 	 */
 	public void insert (Comment comment) {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(comment);

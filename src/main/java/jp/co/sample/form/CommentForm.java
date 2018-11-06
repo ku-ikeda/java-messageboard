@@ -8,7 +8,7 @@ package jp.co.sample.form;
  */
 public class CommentForm {
 
-	/** articleI */
+	/** 記事のID */
 	private String articleId;
 	/** 名前 */
 	private String name;

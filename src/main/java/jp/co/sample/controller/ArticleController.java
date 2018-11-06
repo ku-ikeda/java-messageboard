@@ -26,11 +26,19 @@ import jp.co.sample.repository.CommentRepository;
 @RequestMapping("/article")
 public class ArticleController {
 
+	/**
+	 * articleRepositoryの注入.
+	 */
 	@Autowired
 	private ArticleRepository articleRepository;
+	
+	/**
+	 * commentRepositoryの注入.
+	 */
 	@Autowired
 	private CommentRepository commentRepository;
 
+	
 	@ModelAttribute
 	public ArticleForm setUpArticleForm() {
 
@@ -51,20 +59,19 @@ public class ArticleController {
 	 * 投稿画面を表示する.
 	 * 
 	 * @param model
-	 *            モデル.
+	 *            モデル
 	 * 
-	 * @return 投稿する画面へ.
+	 * @return 投稿する画面へ
 	 */
 	@RequestMapping("/")
 	public String index(Model model) {
+		List<Article> articleList = articleRepository.findAll2();
+//		List<Comment> commentList = new ArrayList<>();
+//		for (Article article : articleList) {
+//			commentList = commentRepository.findByArticleId(article.getId());
+//			article.setCommentList(commentList);
 
-		List<Article> articleList = articleRepository.findAll();
-		List<Comment> commentList = new ArrayList<>();
-		for (Article article : articleList) {
-			commentList = commentRepository.findByArticleId(article.getId());
-			article.setCommentList(commentList);
-
-		}
+//		}
 		model.addAttribute("articleList", articleList);
 		return "postscreen";
 	}
@@ -73,7 +80,7 @@ public class ArticleController {
 	 * 入力内容を追加していく.
 	 * 
 	 * @param form
-	 *            フォーム.
+	 *            フォーム
 	 * @return
 	 */
 	@RequestMapping("/insertArticle")
@@ -93,8 +100,8 @@ public class ArticleController {
 	 * 記事に対してのコメント.
 	 * 
 	 * @param form
-	 *            フォーム.
-	 * @return 投稿画面へ.
+	 *            フォーム
+	 * @return 投稿画面へ
 	 */
 	@RequestMapping("/insertComment")
 	public String insertComment(CommentForm form) {
@@ -115,7 +122,7 @@ public class ArticleController {
 	 * 記事を削除する.
 	 * 
 	 * @param id
-	 * @return 入力画面へ.
+	 * @return 入力画面へ
 	 */
 	@RequestMapping("/deleteArticle")
 	public String deleteArticle(Integer articleId, Model model) {
